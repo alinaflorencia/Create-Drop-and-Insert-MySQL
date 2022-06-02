@@ -1,0 +1,57 @@
+drop table if exists produk_pegawai;
+drop table if exists produk;
+drop table if exists pegawai;
+drop table if exists cabang;
+
+create table cabang
+(
+    id_cabang varchar(8) primary key,
+    alamat_cabang varchar(100) not null,
+    no_telp varchar(15),
+    tgl_didirikan date not null,
+    jml_pegawai int(3)
+);
+
+insert into cabang values('CB040297','jalan kediri no 11','8954123','1997-02-04',46);
+insert into cabang values('CB010190','jalan melati no 45','5946161','1999-01-01',43);
+insert into cabang values('CB050888','jalan perjuangan rakyat no 17','1289212','1988-08-05',41);
+insert into cabang values('CB091200','jalan polisi berpatung no 29','9012481','2000-12-09',39);
+
+create table pegawai
+(
+    id_pegawai varchar(8) primary key,
+    nama_pegawai varchar(50) not null,
+    alamat_pegawai varchar(100),
+    aktif varchar(1) not null,
+    id_cabang varchar(8) references cabang(id_cabang)
+);
+
+insert into pegawai values('PE040297','Adrian Kurnia','jalan manyar tirtosari','1','CB040297');
+insert into pegawai values('PE060698','Williams','jalan petemon','1','CB040297');
+insert into pegawai values('PE210197','Antony Kusuma','jalan bluru kidul','0','CB010190');
+insert into pegawai values('PE140295','Timotius Setiawan','jalan dharmawangsa','0','CB091200');
+
+create table produk
+(
+    id_produk varchar(8) primary key,
+    nama_produk varchar(30) not null,
+    harga int(5) not null,
+    exp_date date not null
+);
+
+insert into produk values('PR210316','tic tac', 10000, '2018-03-21');
+insert into produk values('PR140516','kacang garing', 15000, '2018-05-14');
+insert into produk values('PR310516','kacang atom', 25000, '2019-05-31');
+insert into produk values('PR130816','pop corn', 15000, '2020-12-12');
+
+create table produk_pegawai
+(
+    id_produk_pegawai varchar(8) primary key,
+    id_produk varchar(8) references produk(id_produk),
+    id_pegawai varchar(8) references pegawai(id_pegawai)
+);
+
+insert into produk_pegawai values('PP310597','PR310516','PE040297');
+insert into produk_pegawai values('PP130897','PR130816','PE210197');
+insert into produk_pegawai values('PP210398','PR210316','PE060698');
+insert into produk_pegawai values('PP140597','PR140516','PE040297');
